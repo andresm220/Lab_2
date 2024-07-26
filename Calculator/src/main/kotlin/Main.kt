@@ -6,12 +6,30 @@
 */
 
 fun main(args: Array<String>) {
-    println("Ingrese la expresion postfix")
-    val input = readln()
-    // Prueba
-    val operacionPostfix = Conversor.PostFixConversion(input)
-    val resultado = OperarPostfix(operacionPostfix)
-    println(resultado.mostrarResultado())
+    var seguir= true
+    while(seguir){
+
+        println("""=====Calculadora========
+   1.Realizar operaciones
+   2.Salir
+                """)
+        val choice = readln()
+        val seleccion = choice.toInt()
+        if(seleccion==1){
+            println("Ingrese la expresion infix")
+            val input = readln()
+            // Prueba
+            val operacionPostfix = Conversor.PostFixConversion(input)
+            val resultado = OperarPostfix(operacionPostfix)
+            println(resultado.mostrarResultado())
+        }else if(seleccion ==2){
+            seguir=false
+            println("Gracias por usar la calculadora")
+        }
+
+    }
+
+
 }
 
 class Conversor {
