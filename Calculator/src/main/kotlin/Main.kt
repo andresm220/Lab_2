@@ -9,7 +9,9 @@ fun main(args: Array<String>) {
     println("Ingrese la expresion postfix")
     val input = readln()
     // Prueba
-    println(Conversor.PostFixConversion(input))
+    val operacionPostfix = Conversor.PostFixConversion(input)
+    val resultado = OperarPostfix(operacionPostfix)
+    println(resultado.mostrarResultado())
 }
 
 class Conversor {
