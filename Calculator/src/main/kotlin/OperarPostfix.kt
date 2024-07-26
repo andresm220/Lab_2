@@ -18,11 +18,11 @@ class OperarPostfix(private val operacion:String) {
                 operandoB = stack.pop().toInt()
 
                 when (char){
-                    '+' -> stack.push(sumar(operandoA,operandoB))
-                    //'-' -> stack.push(restar(operandoA,operandoB))
-                    //'*' -> stack.push(multiplicar(operandoA,operandoB))
-                    //'/' -> stack.push(dividir(operandoA,operandoB))
-                    //'^' -> stack.push(potenca(operandoA,operandoB))
+                    '+' -> stack.push(sumar(operandoA,operandoB).toString())
+                    //'-' -> stack.push(restar(operandoA,operandoB).toString())
+                    //'*' -> stack.push(multiplicar(operandoA,operandoB).toString())
+                    //'/' -> stack.push(dividir(operandoA,operandoB).toString())
+                    //'^' -> stack.push(potenca(operandoA,operandoB).toString())
 
                 }
             }
@@ -31,6 +31,7 @@ class OperarPostfix(private val operacion:String) {
 
     }
 
+    private fun sumar(a: Int, b: Int) : Int{return a+b}
 
 
 }
