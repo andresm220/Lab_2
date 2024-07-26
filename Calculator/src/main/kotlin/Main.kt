@@ -11,7 +11,7 @@ fun main(args: Array<String>) {
     // Prueba
     val operacionPostfix = Conversor.PostFixConversion(input)
     val resultado = OperarPostfix(operacionPostfix)
-    resultado.mostrar()
+    println(resultado.mostrarResultado())
 }
 
 class Conversor {
