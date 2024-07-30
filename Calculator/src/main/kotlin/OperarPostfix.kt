@@ -21,7 +21,7 @@ class OperarPostfix(private val operacion:String) {
                     '+' -> stack.push(sumar(operandoA,operandoB).toString())
                     '-' -> stack.push(restar(operandoA,operandoB).toString())
                     '*' -> stack.push(multiplicar(operandoA,operandoB).toString())
-                    //'/' -> stack.push(dividir(operandoA,operandoB).toString())
+                    '/' -> stack.push(dividir(operandoA,operandoB).toString())
                     //'^' -> stack.push(potenca(operandoA,operandoB).toString())
 
                 }
@@ -34,5 +34,6 @@ class OperarPostfix(private val operacion:String) {
     private fun sumar(a: Int, b: Int) : Int{return a+b}
     private fun restar(a: Int, b: Int) : Int{return b-a}
     private fun multiplicar(a: Int, b: Int) : Int{return a*b}
+    private fun dividir(a: Int, b: Int) : Int{return b/a}
 
 }
