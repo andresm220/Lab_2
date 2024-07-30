@@ -36,59 +36,68 @@ class Conversor {
     companion object {
         // Método para convertir infix a postfix
         fun PostFixConversion(string: String): String {
-            // Variable inmutable donde caera el resultado postfix
-            var resultado = ""
-            // Creamos la pila
-            val stack = ArrayDeque<Char>()
+            var resultado = "" // Variable que almacenará el resultado en notación postfix
+            val stack = ArrayDeque<Char>() // Pila para manejar operadores y paréntesis
+            var i = 0 // Índice para recorrer la cadena de entrada
 
-            for (s in string) {
-                if (!notNumeric(s)) {
-                    resultado += s
-                } else if (s == '(') {
-                    stack.push(s)
-                } else if (s == ')') {
+            while (i < string.length) {
+                val s = string[i] // Carácter actual
+
+                if (s.isDigit()) { // Si el carácter es un dígito
+                    resultado += s // Agregar el dígito al resultado
+                    // Manejar números de múltiples dígitos
+                    while (i + 1 < string.length && string[i + 1].isDigit()) {
+                        resultado += string[i + 1] // Agregar dígitos adicionales al resultado
+                        i++ // Avanzar el índice
+                    }
+                    resultado += " " // Agregar un espacio después del número
+                } else if (s == '(') { // Si el carácter es un paréntesis de apertura
+                    stack.push(s) // Empujar el paréntesis en la pila
+                } else if (s == ')') { // Si el carácter es un paréntesis de cierre
+                    // Desapilar y agregar al resultado hasta encontrar un paréntesis de apertura
                     while (stack.isNotEmpty() && stack.peek() != '(') {
-                        resultado += " ${stack.pop()}"
+                        resultado += "${stack.pop()} "
                     }
-                    if (stack.isNotEmpty()) stack.pop() // Eliminar '('
-                } else {
+                    if (stack.isNotEmpty()) stack.pop() // Eliminar el paréntesis de apertura
+                } else if (notNumeric(s)) { // Si el carácter es un operador
+                    // Desapilar y agregar al resultado mientras el operador en la cima de la pila tenga mayor o igual precedencia
                     while (stack.isNotEmpty() && operatorPrecedence(s) <= operatorPrecedence(stack.peek()!!)) {
-                        resultado += " ${stack.pop()}"
+                        resultado += "${stack.pop()} "
                     }
-                    stack.push(s)
-                    resultado += " "
+                    stack.push(s) // Empujar el operador en la pila
                 }
+                i++ // Avanzar el índice
             }
-            // Añadimos los operadores restantes en la pila
+
+            // Desapilar y agregar al resultado todos los operadores restantes en la pila
             while (stack.isNotEmpty()) {
-                if (stack.peek() == '(') return "Error"
-                resultado += " ${stack.pop()}"
+                if (stack.peek() == '(') return "Error" // Si queda un paréntesis de apertura, hay un error en la expresión
+                resultado += "${stack.pop()} "
             }
-            return resultado.trim()
+            return resultado.trim() // Devolver el resultado sin espacios adicionales al final
         }
+
+        // Método para verificar si un carácter no es un dígito
+        private fun notNumeric(ch: Char): Boolean = when (ch) {
+            '+', '-', '*', '/', '(', ')', '^' -> true // Operadores y paréntesis no son numéricos
+            else -> false // Cualquier otro carácter se considera numérico
+        }
+
+        // Método para determinar la precedencia de un operador
+        private fun operatorPrecedence(ch: Char): Int = when (ch) {
+            '+', '-' -> 1 // Suma y resta tienen la precedencia más baja
+            '*', '/' -> 2 // Multiplicación y división tienen precedencia intermedia
+            '^' -> 3 // La exponenciación tiene la precedencia más alta
+            else -> -1 // Cualquier otro carácter tiene precedencia inválida
+        }
+
+        // Funciónes de extensión
+        fun <T> ArrayDeque<T>.push(element: T) = addLast(element)
+
+
+        fun <T> ArrayDeque<T>.pop() = removeLastOrNull()
+
+
+        fun <T> ArrayDeque<T>.peek() = lastOrNull()
     }
 }
-
-// Creamos un método para validar que un caracter sea numérico
-private fun notNumeric(ch: Char): Boolean = when (ch) {
-    '+', '-', '*', '/', '(', ')', '^' -> true
-    else -> false
-}
-
-// Creamos función para verificar la precedencia de cada carácter en el infix
-private fun operatorPrecedence(ch: Char): Int = when (ch) {
-    '+', '-' -> 1
-    '*', '/' -> 2
-    '^' -> 3
-    else -> -1
-}
-
-// Funciones de extensión
-// Función para agregar a la pila
-fun <T> ArrayDeque<T>.push(element: T) = addLast(element)
-
-// Función para sacar de la pila
-fun <T> ArrayDeque<T>.pop() = removeLastOrNull()
-
-// Función para obtener el último elemento de la pila sin removerlo
-fun <T> ArrayDeque<T>.peek() = lastOrNull()
