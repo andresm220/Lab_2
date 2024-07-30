@@ -14,7 +14,7 @@ class OperarPostfix(private val operacion:String) {
             if(char.digitToIntOrNull() != null){
                 stack.push(char.toString())
             }else{
-                if(char=='√'){
+                if(char=='√'){ //Agregar primero el numero y luego la raiz
                     operandoA = stack.pop().toInt()
                     stack.push(raiz(operandoA).toString())
                 }
@@ -42,11 +42,11 @@ class OperarPostfix(private val operacion:String) {
 
     }
 
-    private fun sumar(a: Int, b: Int) : Int{return a+b}
-    private fun restar(a: Int, b: Int) : Int{return b-a}
-    private fun multiplicar(a: Int, b: Int) : Int{return a*b}
-    private fun dividir(a: Int, b: Int) : Int{return b/a}
-    private fun potencia (a: Int, b: Int) : Int{return Math.pow(b.toDouble(), a.toDouble()).toInt()}
-    private fun raiz (a: Int) : Int{return Math.sqrt(a.toDouble()).toInt()}
-    private fun exponencial(a: Int) : Int{ return exp(a.toDouble()).toInt()}
+    private fun sumar(a: Int, b: Int) : Int{return a+b}  //(3+5)
+    private fun restar(a: Int, b: Int) : Int{return b-a}// (12-10)
+    private fun multiplicar(a: Int, b: Int) : Int{return a*b} //(5*2)
+    private fun dividir(a: Int, b: Int) : Int{return b/a} // (6/3)
+    private fun potencia (a: Int, b: Int) : Int{return Math.pow(b.toDouble(), a.toDouble()).toInt()}//(6^3)
+    private fun raiz (a: Int) : Int{return Math.sqrt(a.toDouble()).toInt()} // (4 √)
+    private fun exponencial(a: Int) : Int{ return exp(a.toDouble()).toInt()} // (4e)
 }
