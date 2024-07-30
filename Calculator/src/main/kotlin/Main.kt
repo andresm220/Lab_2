@@ -6,30 +6,49 @@
 */
 
 fun main(args: Array<String>) {
-    var seguir= true
-    while(seguir){
-
-        println("""=====Calculadora========
-   1.Realizar operaciones
-   2.Salir
-                """)
+    var seguir = true
+    while (seguir) {
+        println(
+            """=====Calculadora========
+   1. Realizar operaciones
+   2. Salir
+                """
+        )
         val choice = readln()
-        val seleccion = choice.toInt()
-        if(seleccion==1){
-            println("Ingrese la expresion infix")
-            val input = readln()
-            // Prueba
-            val operacionPostfix = Conversor.PostFixConversion(input)
-            val resultado = OperarPostfix(operacionPostfix)
-            println(resultado.mostrarResultado())
-        }else if(seleccion ==2){
-            seguir=false
-            println("Gracias por usar la calculadora")
+
+        // Validación de entrada del menú
+        val seleccion = choice.toIntOrNull()
+        if (seleccion == null) {
+            println("Por favor, ingrese un número válido.")
+            continue
         }
 
+        if (seleccion == 1) {
+            var input: String
+            while (true) {
+                println("Ingrese la expresión infix")
+                input = readln()
+                if (input.any { !it.isDigit() && !it.isWhitespace() && !Conversor.notNumeric(it) }) {
+                    println("Expresión no válida. Por favor, ingrese una expresión infix correcta.")
+                } else {
+                    break
+                }
+            }
+            // Prueba
+            val operacionPostfix = Conversor.PostFixConversion(input)
+            if (operacionPostfix == "Error") {
+                println("Expresión infix inválida.")
+            } else {
+                val resultado = OperarPostfix(operacionPostfix)
+                println(resultado.mostrarResultado())
+            }
+        } else if (seleccion == 2) {
+            seguir = false
+            println("Gracias por usar la calculadora")
+        } else {
+            println("Número no válido. Por favor, seleccione una opción del menú.")
+        }
     }
-
-
 }
 
 class Conversor {
@@ -78,13 +97,13 @@ class Conversor {
         }
 
         // Método para verificar si un carácter no es un dígito
-        private fun notNumeric(ch: Char): Boolean = when (ch) {
+        fun notNumeric(ch: Char): Boolean = when (ch) {
             '+', '-', '*', '/', '(', ')', '^' -> true // Operadores y paréntesis no son numéricos
             else -> false // Cualquier otro carácter se considera numérico
         }
 
         // Método para determinar la precedencia de un operador
-        private fun operatorPrecedence(ch: Char): Int = when (ch) {
+        fun operatorPrecedence(ch: Char): Int = when (ch) {
             '+', '-' -> 1 // Suma y resta tienen la precedencia más baja
             '*', '/' -> 2 // Multiplicación y división tienen precedencia intermedia
             '^' -> 3 // La exponenciación tiene la precedencia más alta
@@ -93,11 +112,7 @@ class Conversor {
 
         // Funciónes de extensión
         fun <T> ArrayDeque<T>.push(element: T) = addLast(element)
-
-
         fun <T> ArrayDeque<T>.pop() = removeLastOrNull()
-
-
         fun <T> ArrayDeque<T>.peek() = lastOrNull()
     }
 }
