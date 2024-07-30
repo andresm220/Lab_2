@@ -14,16 +14,27 @@ class OperarPostfix(private val operacion:String) {
             if(char.digitToIntOrNull() != null){
                 stack.push(char.toString())
             }else{
-                operandoA = stack.pop().toInt()
-                operandoB = stack.pop().toInt()
+                if(char=='√'){
+                    operandoA = stack.pop().toInt()
+                    stack.push(raiz(operandoA).toString())
+                }
+                else if(char == 'e'){
+                    operandoA = stack.pop().toInt()
+                    stack.push(exponencial(operandoA).toString())
+                }
+                else {
 
-                when (char){
-                    '+' -> stack.push(sumar(operandoA,operandoB).toString())
-                    '-' -> stack.push(restar(operandoA,operandoB).toString())
-                    '*' -> stack.push(multiplicar(operandoA,operandoB).toString())
-                    '/' -> stack.push(dividir(operandoA,operandoB).toString())
-                    '^' -> stack.push(potencia(operandoA,operandoB).toString())
+                    operandoA = stack.pop().toInt()
+                    operandoB = stack.pop().toInt()
 
+                    when (char) {
+                        '+' -> stack.push(sumar(operandoA, operandoB).toString())
+                        '-' -> stack.push(restar(operandoA, operandoB).toString())
+                        '*' -> stack.push(multiplicar(operandoA, operandoB).toString())
+                        '/' -> stack.push(dividir(operandoA, operandoB).toString())
+                        '^' -> stack.push(potencia(operandoA, operandoB).toString())
+
+                    }
                 }
             }
         }
@@ -36,5 +47,6 @@ class OperarPostfix(private val operacion:String) {
     private fun multiplicar(a: Int, b: Int) : Int{return a*b}
     private fun dividir(a: Int, b: Int) : Int{return b/a}
     private fun potencia (a: Int, b: Int) : Int{return Math.pow(b.toDouble(), a.toDouble()).toInt()}
-
+    private fun raiz (a: Int) : Int{return Math.sqrt(a.toDouble()).toInt()}
+    private fun exponencial(a: Int) : Int{ return exp(a.toDouble()).toInt()}
 }
