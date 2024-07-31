@@ -31,6 +31,18 @@ class CalcTest {
             assertEquals(-1, Conversor.operatorPrecedence('a'))
         }
 
+    @Test
+    fun testMostrarResultado() {
+        // Prueba de evaluación de expresiones postfix
+        assertEquals("5", OperarPostfix("2 3 +").mostrarResultado())
+        assertEquals("14", OperarPostfix("2 3 4 * +").mostrarResultado())
+        assertEquals("20", OperarPostfix("2 3 + 4 *").mostrarResultado())
+        assertEquals("14", OperarPostfix("2 3 4 + *").mostrarResultado())
+        assertEquals("8", OperarPostfix("2 3 ^").mostrarResultado())
+    }
+
+
+
     
 
 
